@@ -95,13 +95,13 @@ class _MyAppState extends State<MyApp> {
   }  
 
   //switches
-  void _setSwitchState(String _roomOrDoorType){
+  void _setSwitchState(int _switchType){
 
     if(_connectedYesNo == "Connected."){
 
       setState(() {
 
-        if (_roomOrDoorType == "Living Room"){
+        if (_switchType == 0){
           if (_bulbImgPathLivingRoom == "images/light_off.png" && _clrButtonLivingRoom == Colors.green && _txtButtonLivingRoom == "TURN ON"){
             //_bulbImgPathLivingRoom = "images/light_on.png";
             //_clrButtonLivingRoom = Colors.red;
@@ -115,7 +115,7 @@ class _MyAppState extends State<MyApp> {
             _sendData("b");
           }
         } 
-        else if (_roomOrDoorType == "Bedroom"){
+        else if (_switchType == 1){
           if (_bulbImgPathBedroom == "images/light_off.png" && _clrButtonBedroom == Colors.green && _txtButtonBedroom == "TURN ON"){
             //_bulbImgPathBedroom = "images/light_on.png";
             //_clrButtonBedroom = Colors.red;
@@ -129,7 +129,7 @@ class _MyAppState extends State<MyApp> {
             _sendData("d");
           }
         }
-        else if (_roomOrDoorType == "Children's Room"){
+        else if (_switchType == 2){
           if (_bulbImgPathChildrensRoom == "images/light_off.png" && _clrButtonChildrensRoom == Colors.green && _txtButtonChildrensRoom == "TURN ON"){
             //_bulbImgPathChildrensRoom = "images/light_on.png";
             //_clrButtonChildrensRoom = Colors.red;
@@ -143,7 +143,7 @@ class _MyAppState extends State<MyApp> {
             _sendData("f");
           }
         }
-        else if (_roomOrDoorType == "Kitchen"){
+        else if (_switchType == 3){
           if (_bulbImgPathKitchen == "images/light_off.png" && _clrButtonKitchen == Colors.green && _txtButtonKitchen == "TURN ON"){
             //_bulbImgPathKitchen = "images/light_on.png";
             //_clrButtonKitchen = Colors.red;
@@ -157,49 +157,7 @@ class _MyAppState extends State<MyApp> {
             _sendData("h");
           }
         }
-        else if (_roomOrDoorType == "Bathroom"){
-          if (_bulbImgPathBathroom == "images/light_off.png" && _clrButtonBathroom == Colors.green && _txtButtonBathroom == "TURN ON"){
-            //_bulbImgPathBathroom = "images/light_on.png";
-            //_clrButtonBathroom = Colors.red;
-            //_txtButtonBathroom = "TURN OFF";
-            _sendData("i");
-          }
-          else{
-            //_bulbImgPathBathroom = "images/light_off.png";
-            //_clrButtonBathroom = Colors.green;
-            //_txtButtonBathroom = "TURN ON";
-            _sendData("j");
-          }
-        }
-        else if (_roomOrDoorType == "Hallway"){
-          if (_bulbImgPathHallway == "images/light_off.png" && _clrButtonHallway == Colors.green && _txtButtonHallway == "TURN ON"){
-            //_bulbImgPathHallway = "images/light_on.png";
-            //_clrButtonHallway = Colors.red;
-            //_txtButtonHallway = "TURN OFF";
-            _sendData("k");
-          }
-          else{
-            //_bulbImgPathHallway = "images/light_off.png";
-            //_clrButtonHallway = Colors.green;
-            //_txtButtonHallway = "TURN ON";
-            _sendData("l"); // letter l !!!
-          }
-        }
-        else if (_roomOrDoorType == "Front Door"){
-          if (_padlockImgPathFrontDoor == "images/locked.png" && _clrButtonFrontDoor == Colors.green && _txtButtonFrontDoor == "UNLOCK"){
-            //_padlockImgPathFrontDoor = "images/unlocked.png";
-            //_clrButtonFrontDoor = Colors.red;
-            //_txtButtonFrontDoor = "LOCK";
-            _sendData("m");
-          }
-          else{
-            //_padlockImgPathFrontDoor = "images/locked.png";
-            //_clrButtonFrontDoor = Colors.green;
-            //_txtButtonFrontDoor = "UNLOCK";
-            _sendData("n");
-          }
-        }
-      });
+    });
     }
     else{
       Fluttertoast.showToast( msg: 'Cannot send data!\nYou are not connected.', );
