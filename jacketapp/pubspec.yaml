@@ -31,6 +31,8 @@ dependencies:
   flutter:
     sdk: flutter
   font_awesome_flutter: ^9.1.0
+  flutter_bluetooth_serial: ^0.4.0
+  fluttertoast: ^8.2.1
 
 
   # The following adds the Cupertino Icons font to your application.

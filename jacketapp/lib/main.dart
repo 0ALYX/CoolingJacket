@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:convert';
+import 'dart:typed_data';
+import 'dart:async';
 
 void main() => runApp(MyApp());
 
@@ -11,6 +16,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _temperatureText =
       '17°'; // Add this variable to store the temperature text
+      late BluetoothConnection connection;
 
   List<bool> _switchValues = [true, true, true];
   String _selectedText = 'Peltier Plates';
@@ -18,6 +24,11 @@ class _MyAppState extends State<MyApp> {
   Color _selectedColor2 = Colors.white;
   Color _selectedTextColor1 = Color(0xFFB3B3B3);
   Color _selectedTextColor2 = Colors.black;
+
+  Future<void> _sendData(String data) async {
+      connection.output.add(Uint8List.fromList(utf8.encode(data))); // Sending data
+      await connection.output.allSent;
+  }  
 
   void _updateSelectedColors(String text, Color color1, Color color2,
       Color textColor1, Color textColor2) {
@@ -55,6 +66,8 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
+
+
 
   Widget _buildSmallBox(
       int index, IconData icon, String text, Color backgroundColor) {
