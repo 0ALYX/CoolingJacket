@@ -29,6 +29,7 @@ class _MyAppState extends State<MyApp> {
     _connect();
   }
 
+  //bluetooth connection
   bool get isConnected => (connection.isConnected);
 
   Future<void> _connect() async {
@@ -75,11 +76,135 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  void waitLoading(){
+    setState(() {
+      //_connectedYesNo = "Loading...";
+      //_colorConnectedYesNo = Colors.black;
+      //_txtButtonCheckReload = "CHECK";
+    });
+  }
+
+  void _reloadOrCheck(){
+    waitLoading();
+    _connect();
+  }
+
   Future<void> _sendData(String data) async {
       connection.output.add(Uint8List.fromList(utf8.encode(data))); // Sending data
       await connection.output.allSent;
   }  
 
+  //switches
+  void _setSwitchState(String _roomOrDoorType){
+
+    if(_connectedYesNo == "Connected."){
+
+      setState(() {
+
+        if (_roomOrDoorType == "Living Room"){
+          if (_bulbImgPathLivingRoom == "images/light_off.png" && _clrButtonLivingRoom == Colors.green && _txtButtonLivingRoom == "TURN ON"){
+            //_bulbImgPathLivingRoom = "images/light_on.png";
+            //_clrButtonLivingRoom = Colors.red;
+            //_txtButtonLivingRoom = "TURN OFF";
+            _sendData("a");
+          }
+          else{
+            //_bulbImgPathLivingRoom = "images/light_off.png";
+            //_clrButtonLivingRoom = Colors.green;
+            //_txtButtonLivingRoom = "TURN ON";
+            _sendData("b");
+          }
+        } 
+        else if (_roomOrDoorType == "Bedroom"){
+          if (_bulbImgPathBedroom == "images/light_off.png" && _clrButtonBedroom == Colors.green && _txtButtonBedroom == "TURN ON"){
+            //_bulbImgPathBedroom = "images/light_on.png";
+            //_clrButtonBedroom = Colors.red;
+            //_txtButtonBedroom = "TURN OFF";
+            _sendData("c");
+          }
+          else{
+            //_bulbImgPathBedroom = "images/light_off.png";
+            //_clrButtonBedroom = Colors.green;
+            //_txtButtonBedroom = "TURN ON";
+            _sendData("d");
+          }
+        }
+        else if (_roomOrDoorType == "Children's Room"){
+          if (_bulbImgPathChildrensRoom == "images/light_off.png" && _clrButtonChildrensRoom == Colors.green && _txtButtonChildrensRoom == "TURN ON"){
+            //_bulbImgPathChildrensRoom = "images/light_on.png";
+            //_clrButtonChildrensRoom = Colors.red;
+            //_txtButtonChildrensRoom = "TURN OFF";
+            _sendData("e");
+          }
+          else{
+            //_bulbImgPathChildrensRoom = "images/light_off.png";
+            //_clrButtonChildrensRoom = Colors.green;
+            //_txtButtonChildrensRoom = "TURN ON";
+            _sendData("f");
+          }
+        }
+        else if (_roomOrDoorType == "Kitchen"){
+          if (_bulbImgPathKitchen == "images/light_off.png" && _clrButtonKitchen == Colors.green && _txtButtonKitchen == "TURN ON"){
+            //_bulbImgPathKitchen = "images/light_on.png";
+            //_clrButtonKitchen = Colors.red;
+            //_txtButtonKitchen = "TURN OFF";
+            _sendData("g");
+          }
+          else{
+            //_bulbImgPathKitchen = "images/light_off.png";
+            //_clrButtonKitchen = Colors.green;
+            //_txtButtonKitchen = "TURN ON";
+            _sendData("h");
+          }
+        }
+        else if (_roomOrDoorType == "Bathroom"){
+          if (_bulbImgPathBathroom == "images/light_off.png" && _clrButtonBathroom == Colors.green && _txtButtonBathroom == "TURN ON"){
+            //_bulbImgPathBathroom = "images/light_on.png";
+            //_clrButtonBathroom = Colors.red;
+            //_txtButtonBathroom = "TURN OFF";
+            _sendData("i");
+          }
+          else{
+            //_bulbImgPathBathroom = "images/light_off.png";
+            //_clrButtonBathroom = Colors.green;
+            //_txtButtonBathroom = "TURN ON";
+            _sendData("j");
+          }
+        }
+        else if (_roomOrDoorType == "Hallway"){
+          if (_bulbImgPathHallway == "images/light_off.png" && _clrButtonHallway == Colors.green && _txtButtonHallway == "TURN ON"){
+            //_bulbImgPathHallway = "images/light_on.png";
+            //_clrButtonHallway = Colors.red;
+            //_txtButtonHallway = "TURN OFF";
+            _sendData("k");
+          }
+          else{
+            //_bulbImgPathHallway = "images/light_off.png";
+            //_clrButtonHallway = Colors.green;
+            //_txtButtonHallway = "TURN ON";
+            _sendData("l"); // letter l !!!
+          }
+        }
+        else if (_roomOrDoorType == "Front Door"){
+          if (_padlockImgPathFrontDoor == "images/locked.png" && _clrButtonFrontDoor == Colors.green && _txtButtonFrontDoor == "UNLOCK"){
+            //_padlockImgPathFrontDoor = "images/unlocked.png";
+            //_clrButtonFrontDoor = Colors.red;
+            //_txtButtonFrontDoor = "LOCK";
+            _sendData("m");
+          }
+          else{
+            //_padlockImgPathFrontDoor = "images/locked.png";
+            //_clrButtonFrontDoor = Colors.green;
+            //_txtButtonFrontDoor = "UNLOCK";
+            _sendData("n");
+          }
+        }
+      });
+    }
+    else{
+      Fluttertoast.showToast( msg: 'Cannot send data!\nYou are not connected.', );
+    }
+  }
 
   void _updateSelectedColors(String text, Color color1, Color color2,
       Color textColor1, Color textColor2) {
