@@ -25,10 +25,61 @@ class _MyAppState extends State<MyApp> {
   Color _selectedTextColor1 = Color(0xFFB3B3B3);
   Color _selectedTextColor2 = Colors.black;
 
+   _MyAppState(){
+    _connect();
+  }
+
+  bool get isConnected => (connection.isConnected);
+
+  Future<void> _connect() async {
+    try {
+      connection = await BluetoothConnection.toAddress("00:21:07:00:07:EE");
+      Fluttertoast.showToast( msg: 'Connected to the bluetooth device', );
+      print('Connected to the bluetooth device');
+      setState(() {
+        //_connectedYesNo = "Connected.";
+        //_colorConnectedYesNo = Colors.green;
+        //_txtButtonCheckReload = "CHECK";
+      });
+    }
+    catch (exception) {
+      try {
+        if (isConnected){
+          Fluttertoast.showToast( msg: 'Already connected to the device', );
+          print('Already connected to the device');
+          setState(() {
+            //_connectedYesNo = "Connected.";
+            //_colorConnectedYesNo = Colors.green;
+            //_txtButtonCheckReload = "CHECK";
+          });
+        }
+        else{
+          Fluttertoast.showToast( msg: 'Cannot connect, exception occured', );
+          print('Cannot connect, exception occured');
+          setState(() {
+            //_connectedYesNo = "Not connected!";
+            //_colorConnectedYesNo = Colors.red;
+            //_txtButtonCheckReload = "RELOAD";
+          });
+        }
+      }
+      catch (e){
+        Fluttertoast.showToast( msg: 'Cannot connect, probably not initialized connection', );
+        print('Cannot connect, probably not initialized connection');
+        setState(() {
+          //_connectedYesNo = "Not connected!";
+          //_colorConnectedYesNo = Colors.red;
+          //_txtButtonCheckReload = "RELOAD";
+        });
+      }
+    }
+  }
+
   Future<void> _sendData(String data) async {
       connection.output.add(Uint8List.fromList(utf8.encode(data))); // Sending data
       await connection.output.allSent;
   }  
+
 
   void _updateSelectedColors(String text, Color color1, Color color2,
       Color textColor1, Color textColor2) {
