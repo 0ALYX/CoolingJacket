@@ -264,6 +264,7 @@ class _MyAppState extends State<MyApp> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    const SizedBox(height: 30),
                     _buildTab(
                       'Peltier Plates',
                       () {
@@ -354,7 +355,7 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ),
               ),
-              const SizedBox(height: 35),
+              const SizedBox(height: 30),
               Wrap(
                 children: [
                   _buildSmallBox(0, FontAwesomeIcons.powerOff, 'Power',
