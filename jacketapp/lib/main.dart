@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
       );
       print('Connected to the bluetooth device');
       setState(() {
-        //_connectedYesNo = "Connected.";
+        _connectedYesNo = "Connected.";
         //_colorConnectedYesNo = Colors.green;
         //_txtButtonCheckReload = "CHECK";
       });
@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
           );
           print('Already connected to the device');
           setState(() {
-            //_connectedYesNo = "Connected.";
+            _connectedYesNo = "Connected.";
             //_colorConnectedYesNo = Colors.green;
             //_txtButtonCheckReload = "CHECK";
           });
@@ -67,7 +67,7 @@ class _MyAppState extends State<MyApp> {
           );
           print('Cannot connect, exception occured');
           setState(() {
-            //_connectedYesNo = "Not connected!";
+            _connectedYesNo = "Not connected!";
             //_colorConnectedYesNo = Colors.red;
             //_txtButtonCheckReload = "RELOAD";
           });
@@ -78,7 +78,7 @@ class _MyAppState extends State<MyApp> {
         );
         print('Cannot connect, probably not initialized connection');
         setState(() {
-          //_connectedYesNo = "Not connected!";
+          _connectedYesNo = "Not connected!";
           //_colorConnectedYesNo = Colors.red;
           //_txtButtonCheckReload = "RELOAD";
         });
@@ -360,7 +360,7 @@ class _MyAppState extends State<MyApp> {
                       Color.fromARGB(255, 179, 179, 179)),
                   _buildSmallBox(1, FontAwesomeIcons.fan, 'Cooling Fans',
                       Color.fromARGB(255, 223, 216, 153)),
-                  _buildSmallBox(2, FontAwesomeIcons.bluetooth, 'Bluetooth',
+                  _buildSmallBox(2, FontAwesomeIcons.bluetooth, _connectedYesNo,
                       Color.fromARGB(255, 108, 187, 233)),
                   _buildSmallBox(3, FontAwesomeIcons.batteryEmpty, 'Battery',
                       Color.fromARGB(255, 171, 214, 153)),
