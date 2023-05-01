@@ -229,7 +229,7 @@ class _MyAppState extends State<MyApp> {
               top: 10,
               left: 10,
               child: Icon(icon, size: 24, color: Colors.white)),
-          if (index != 3)
+          if (index != 2)
             Positioned(
               top: 10,
               right: 10,
