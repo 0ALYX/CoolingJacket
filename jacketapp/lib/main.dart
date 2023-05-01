@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//added dependencies them import
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -17,6 +18,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _temperatureText =
       '17°'; // Add this variable to store the temperature text
+    //initialized bluetooth variable
   late BluetoothConnection connection;
 
   String _connectedYesNo = "Loading...";
@@ -34,11 +36,12 @@ class _MyAppState extends State<MyApp> {
     _connect();
   }
 
-  //bluetooth connection
+  //bluetooth connection (if able to connect)
   bool get isConnected => (connection.isConnected);
 
   Future<void> _connect() async {
     try {
+      //if true then connected if false then display message
       connection = await BluetoothConnection.toAddress("00:21:07:00:07:EE");
       Fluttertoast.showToast(
         msg: 'Connected to the bluetooth device',
