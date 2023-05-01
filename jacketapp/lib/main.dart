@@ -174,6 +174,8 @@ class _MyAppState extends State<MyApp> {
     }
   }*/
 
+/////////////////////////////////////////////////////////////////////
+
   void _updateSelectedColors(String text, Color color1, Color color2,
       Color textColor1, Color textColor2) {
     setState(() {
