@@ -19,6 +19,10 @@ class _MyAppState extends State<MyApp> {
       '17°'; // Add this variable to store the temperature text
   late BluetoothConnection connection;
 
+  String _connectedYesNo = "Loading...";
+  Color _colorConnectedYesNo = Colors.black;
+  String _txtButtonCheckReload = "CHECK";
+
   List<bool> _switchValues = [true, true, true];
   String _selectedText = 'Peltier Plates';
   Color _selectedColor1 = Colors.white;
@@ -102,7 +106,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   //switches
-  void _setSwitchState(int _switchType) {
+  /*void _setSwitchState(int _switchType) {
     if (_connectedYesNo == "Connected.") {
       setState(() {
         if (_switchType == 0) {
@@ -168,7 +172,7 @@ class _MyAppState extends State<MyApp> {
         msg: 'Cannot send data!\nYou are not connected.',
       );
     }
-  }
+  }*/
 
   void _updateSelectedColors(String text, Color color1, Color color2,
       Color textColor1, Color textColor2) {
@@ -186,7 +190,7 @@ class _MyAppState extends State<MyApp> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
         decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: BorderRadius.only(
@@ -210,7 +214,7 @@ class _MyAppState extends State<MyApp> {
   Widget _buildSmallBox(
       int index, IconData icon, String text, Color backgroundColor) {
     return Container(
-      margin: EdgeInsets.all(5),
+      margin: const EdgeInsets.all(5),
       width: 151,
       height: 107,
       decoration: BoxDecoration(
@@ -228,6 +232,7 @@ class _MyAppState extends State<MyApp> {
               top: 10,
               right: 10,
               child: Switch(
+                ///////////////////////
                 value: _switchValues[index],
                 onChanged: (bool value) =>
                     setState(() => _switchValues[index] = value),
@@ -267,6 +272,7 @@ class _MyAppState extends State<MyApp> {
                             Colors.white,
                             Color(0xFFB3B3B3));
                         setState(() {
+                          //////////////////////
                           _temperatureText =
                               '17°'; // Update the temperature text
                         });
@@ -284,6 +290,7 @@ class _MyAppState extends State<MyApp> {
                             Color(0xFFB3B3B3),
                             Colors.white);
                         setState(() {
+                          ///////////////////
                           _temperatureText =
                               '34°'; // Update the temperature text
                         });
@@ -295,6 +302,7 @@ class _MyAppState extends State<MyApp> {
                 ),
               ),
               SizedBox(height: 10),
+              //Small boxes
               Container(
                 width: 324,
                 height: 193,
@@ -348,10 +356,10 @@ class _MyAppState extends State<MyApp> {
                 children: [
                   _buildSmallBox(0, FontAwesomeIcons.powerOff, 'Power',
                       Color.fromARGB(255, 179, 179, 179)),
-                  _buildSmallBox(1, FontAwesomeIcons.bluetooth, 'Bluetooth',
-                      Color.fromARGB(255, 108, 187, 233)),
-                  _buildSmallBox(2, FontAwesomeIcons.fan, 'Cooling Fans',
+                  _buildSmallBox(1, FontAwesomeIcons.fan, 'Cooling Fans',
                       Color.fromARGB(255, 223, 216, 153)),
+                  _buildSmallBox(2, FontAwesomeIcons.bluetooth, 'Bluetooth',
+                      Color.fromARGB(255, 108, 187, 233)),
                   _buildSmallBox(3, FontAwesomeIcons.batteryEmpty, 'Battery',
                       Color.fromARGB(255, 171, 214, 153)),
                 ],
