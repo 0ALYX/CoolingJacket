@@ -303,7 +303,7 @@ class _MyAppState extends State<MyApp> {
                   ],
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 20),
               //Small boxes
               Container(
                 width: 324,
@@ -354,6 +354,7 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ),
               ),
+              const SizedBox(height: 35),
               Wrap(
                 children: [
                   _buildSmallBox(0, FontAwesomeIcons.powerOff, 'Power',
