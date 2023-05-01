@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:async';
@@ -16,7 +17,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _temperatureText =
       '17°'; // Add this variable to store the temperature text
-      late BluetoothConnection connection;
+  late BluetoothConnection connection;
 
   List<bool> _switchValues = [true, true, true];
   String _selectedText = 'Peltier Plates';
@@ -25,7 +26,7 @@ class _MyAppState extends State<MyApp> {
   Color _selectedTextColor1 = Color(0xFFB3B3B3);
   Color _selectedTextColor2 = Colors.black;
 
-   _MyAppState(){
+  _MyAppState() {
     _connect();
   }
 
@@ -35,27 +36,31 @@ class _MyAppState extends State<MyApp> {
   Future<void> _connect() async {
     try {
       connection = await BluetoothConnection.toAddress("00:21:07:00:07:EE");
-      Fluttertoast.showToast( msg: 'Connected to the bluetooth device', );
+      Fluttertoast.showToast(
+        msg: 'Connected to the bluetooth device',
+      );
       print('Connected to the bluetooth device');
       setState(() {
         //_connectedYesNo = "Connected.";
         //_colorConnectedYesNo = Colors.green;
         //_txtButtonCheckReload = "CHECK";
       });
-    }
-    catch (exception) {
+    } catch (exception) {
       try {
-        if (isConnected){
-          Fluttertoast.showToast( msg: 'Already connected to the device', );
+        if (isConnected) {
+          Fluttertoast.showToast(
+            msg: 'Already connected to the device',
+          );
           print('Already connected to the device');
           setState(() {
             //_connectedYesNo = "Connected.";
             //_colorConnectedYesNo = Colors.green;
             //_txtButtonCheckReload = "CHECK";
           });
-        }
-        else{
-          Fluttertoast.showToast( msg: 'Cannot connect, exception occured', );
+        } else {
+          Fluttertoast.showToast(
+            msg: 'Cannot connect, exception occured',
+          );
           print('Cannot connect, exception occured');
           setState(() {
             //_connectedYesNo = "Not connected!";
@@ -63,9 +68,10 @@ class _MyAppState extends State<MyApp> {
             //_txtButtonCheckReload = "RELOAD";
           });
         }
-      }
-      catch (e){
-        Fluttertoast.showToast( msg: 'Cannot connect, probably not initialized connection', );
+      } catch (e) {
+        Fluttertoast.showToast(
+          msg: 'Cannot connect, probably not initialized connection',
+        );
         print('Cannot connect, probably not initialized connection');
         setState(() {
           //_connectedYesNo = "Not connected!";
@@ -76,7 +82,7 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  void waitLoading(){
+  void waitLoading() {
     setState(() {
       //_connectedYesNo = "Loading...";
       //_colorConnectedYesNo = Colors.black;
@@ -84,83 +90,83 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  void _reloadOrCheck(){
+  void _reloadOrCheck() {
     waitLoading();
     _connect();
   }
 
   Future<void> _sendData(String data) async {
-      connection.output.add(Uint8List.fromList(utf8.encode(data))); // Sending data
-      await connection.output.allSent;
-  }  
+    connection.output
+        .add(Uint8List.fromList(utf8.encode(data))); // Sending data
+    await connection.output.allSent;
+  }
 
   //switches
-  void _setSwitchState(int _switchType){
-
-    if(_connectedYesNo == "Connected."){
-
+  void _setSwitchState(int _switchType) {
+    if (_connectedYesNo == "Connected.") {
       setState(() {
-
-        if (_switchType == 0){
-          if (_bulbImgPathLivingRoom == "images/light_off.png" && _clrButtonLivingRoom == Colors.green && _txtButtonLivingRoom == "TURN ON"){
+        if (_switchType == 0) {
+          if (_bulbImgPathLivingRoom == "images/light_off.png" &&
+              _clrButtonLivingRoom == Colors.green &&
+              _txtButtonLivingRoom == "TURN ON") {
             //_bulbImgPathLivingRoom = "images/light_on.png";
             //_clrButtonLivingRoom = Colors.red;
             //_txtButtonLivingRoom = "TURN OFF";
             _sendData("a");
-          }
-          else{
+          } else {
             //_bulbImgPathLivingRoom = "images/light_off.png";
             //_clrButtonLivingRoom = Colors.green;
             //_txtButtonLivingRoom = "TURN ON";
             _sendData("b");
           }
-        } 
-        else if (_switchType == 1){
-          if (_bulbImgPathBedroom == "images/light_off.png" && _clrButtonBedroom == Colors.green && _txtButtonBedroom == "TURN ON"){
+        } else if (_switchType == 1) {
+          if (_bulbImgPathBedroom == "images/light_off.png" &&
+              _clrButtonBedroom == Colors.green &&
+              _txtButtonBedroom == "TURN ON") {
             //_bulbImgPathBedroom = "images/light_on.png";
             //_clrButtonBedroom = Colors.red;
             //_txtButtonBedroom = "TURN OFF";
             _sendData("c");
-          }
-          else{
+          } else {
             //_bulbImgPathBedroom = "images/light_off.png";
             //_clrButtonBedroom = Colors.green;
             //_txtButtonBedroom = "TURN ON";
             _sendData("d");
           }
-        }
-        else if (_switchType == 2){
-          if (_bulbImgPathChildrensRoom == "images/light_off.png" && _clrButtonChildrensRoom == Colors.green && _txtButtonChildrensRoom == "TURN ON"){
+        } else if (_switchType == 2) {
+          if (_bulbImgPathChildrensRoom == "images/light_off.png" &&
+              _clrButtonChildrensRoom == Colors.green &&
+              _txtButtonChildrensRoom == "TURN ON") {
             //_bulbImgPathChildrensRoom = "images/light_on.png";
             //_clrButtonChildrensRoom = Colors.red;
             //_txtButtonChildrensRoom = "TURN OFF";
             _sendData("e");
-          }
-          else{
+          } else {
             //_bulbImgPathChildrensRoom = "images/light_off.png";
             //_clrButtonChildrensRoom = Colors.green;
             //_txtButtonChildrensRoom = "TURN ON";
             _sendData("f");
           }
-        }
-        else if (_switchType == 3){
-          if (_bulbImgPathKitchen == "images/light_off.png" && _clrButtonKitchen == Colors.green && _txtButtonKitchen == "TURN ON"){
+        } else if (_switchType == 3) {
+          if (_bulbImgPathKitchen == "images/light_off.png" &&
+              _clrButtonKitchen == Colors.green &&
+              _txtButtonKitchen == "TURN ON") {
             //_bulbImgPathKitchen = "images/light_on.png";
             //_clrButtonKitchen = Colors.red;
             //_txtButtonKitchen = "TURN OFF";
             _sendData("g");
-          }
-          else{
+          } else {
             //_bulbImgPathKitchen = "images/light_off.png";
             //_clrButtonKitchen = Colors.green;
             //_txtButtonKitchen = "TURN ON";
             _sendData("h");
           }
         }
-    });
-    }
-    else{
-      Fluttertoast.showToast( msg: 'Cannot send data!\nYou are not connected.', );
+      });
+    } else {
+      Fluttertoast.showToast(
+        msg: 'Cannot send data!\nYou are not connected.',
+      );
     }
   }
 
@@ -200,8 +206,6 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-
-
 
   Widget _buildSmallBox(
       int index, IconData icon, String text, Color backgroundColor) {
