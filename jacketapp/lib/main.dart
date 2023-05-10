@@ -241,7 +241,7 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-
+///////////need accurate data
 void onDataReceived(List<int> data) {
   String message = String.fromCharCodes(data).trim();
   print('Received data: $message');
