@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 //added dependencies then import
@@ -360,5 +359,3 @@ void onDataReceived(List<int> data) {
     );
   }
 }
-=======
->>>>>>> 9c936bc3602c734450ea41baa181802a99453b8a
