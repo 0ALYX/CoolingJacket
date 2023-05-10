@@ -17,22 +17,19 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _temperatureText =
-      '00°'; // Add this variable to store the temperature text
+      '17°'; // Add this variable to store the temperature text
     //initialized bluetooth variable
-  late BluetoothConnection _connection;
-  List<int> data = []; ////////////////
-   double temperature_body = 0.0;
-
+  late BluetoothConnection connection;
 
   String _connectedYesNo = "Loading...";
   Color _colorConnectedYesNo = Colors.black;
   String _txtButtonCheckReload = "CHECK";
 
   List<bool> _switchValues = [true, true, true];
-  String _selectedText = ' ';
+  String _selectedText = 'Peltier Plates';
   Color _selectedColor1 = Colors.white;
   Color _selectedColor2 = Colors.white;
-  Color _selectedTextColor1 = Colors.black;
+  Color _selectedTextColor1 = Color(0xFFB3B3B3);
   Color _selectedTextColor2 = Colors.black;
 
   _MyAppState() {
@@ -40,27 +37,21 @@ class _MyAppState extends State<MyApp> {
   }
 
   //bluetooth connection (if able to connect)
-  bool get isConnected => (_connection.isConnected);
+  bool get isConnected => (connection.isConnected);
 
   Future<void> _connect() async {
     try {
       //if true then connected if false then display message
-       BluetoothConnection connection = await BluetoothConnection.toAddress("98:D3:91:FE:48:71");
-      
+      connection = await BluetoothConnection.toAddress("00:21:07:00:07:EE");
       Fluttertoast.showToast(
         msg: 'Connected to the bluetooth device',
       );
       print('Connected to the bluetooth device');
       setState(() {
         _connectedYesNo = "Connected.";
-        _connection = connection;
-        
         //_colorConnectedYesNo = Colors.green;
         //_txtButtonCheckReload = "CHECK";
-      
       });
-      _connection.input?.listen(onDataReceived);
-      
     } catch (exception) {
       try {
         if (isConnected) {
@@ -82,9 +73,7 @@ class _MyAppState extends State<MyApp> {
             _connectedYesNo = "Not connected!";
             //_colorConnectedYesNo = Colors.red;
             //_txtButtonCheckReload = "RELOAD";
-          }
-          
-          );
+          });
         }
       } catch (e) {
         Fluttertoast.showToast(
@@ -114,9 +103,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _sendData(String data) async {
-    _connection.output
+    connection.output
         .add(Uint8List.fromList(utf8.encode(data))); // Sending data
-    await _connection.output.allSent;
+    await connection.output.allSent;
   }
 
   //switches
@@ -264,22 +253,6 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  void onDataReceived(List<int> data) {
-    
-    String message = String.fromCharCodes(data).trim();
-  print('Received data: $message');
-  double temp = double.parse(message);
-  if (temp != null) {
-    setState(() {
-      temperature_body = temp;
-    });
-  }
-    
-    /*setState(() {
-      this.data = data;
-    });*/
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -322,11 +295,11 @@ class _MyAppState extends State<MyApp> {
                             Color.fromARGB(255, 253, 181, 123),
                             Color(0xFFB3B3B3),
                             Colors.white);
-                        /*setState(() {
+                        setState(() {
                           ///////////////////
                           _temperatureText =
-                              (String.fromCharCodes(data)); // Update the temperature text
-                        });*/
+                              '34°'; // Update the temperature text
+                        });
                       },
                       _selectedColor2,
                       _selectedTextColor2,
@@ -365,7 +338,7 @@ class _MyAppState extends State<MyApp> {
                                   : Colors.white),
                         ),
                         Text(
-                          '${temperature_body.toStringAsFixed(2)} °C', // Use the _temperatureText variable here
+                          _temperatureText, // Use the _temperatureText variable here
                           style: TextStyle(
                               fontSize: 75,
                               color: _selectedColor1 == Color(0xFF22AFFF)
