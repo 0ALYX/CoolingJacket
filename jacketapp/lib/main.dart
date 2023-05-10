@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
     //initialized bluetooth variable
   late BluetoothConnection _connection;
   List<int> data = []; ////////////////
-   double temperature_body = 0.0;
+   double temperature_body = 00.0;
 
 
   String _connectedYesNo = "Loading...";
@@ -118,75 +118,53 @@ class _MyAppState extends State<MyApp> {
         .add(Uint8List.fromList(utf8.encode(data))); // Sending data
     await _connection.output.allSent;
   }
-
+  
   //switches
-  /*void _setSwitchState(int _switchType) {
+  void _setSwitchState(int _switchType) {
     if (_connectedYesNo == "Connected.") {
       setState(() {
         if (_switchType == 0) {
-          if (_bulbImgPathLivingRoom == "images/light_off.png" &&
-              _clrButtonLivingRoom == Colors.green &&
-              _txtButtonLivingRoom == "TURN ON") {
-            //_bulbImgPathLivingRoom = "images/light_on.png";
-            //_clrButtonLivingRoom = Colors.red;
-            //_txtButtonLivingRoom = "TURN OFF";
-            _sendData("a");
-          } else {
-            //_bulbImgPathLivingRoom = "images/light_off.png";
-            //_clrButtonLivingRoom = Colors.green;
-            //_txtButtonLivingRoom = "TURN ON";
-            _sendData("b");
-          }
-        } else if (_switchType == 1) {
-          if (_bulbImgPathBedroom == "images/light_off.png" &&
-              _clrButtonBedroom == Colors.green &&
-              _txtButtonBedroom == "TURN ON") {
-            //_bulbImgPathBedroom = "images/light_on.png";
-            //_clrButtonBedroom = Colors.red;
-            //_txtButtonBedroom = "TURN OFF";
-            _sendData("c");
-          } else {
-            //_bulbImgPathBedroom = "images/light_off.png";
-            //_clrButtonBedroom = Colors.green;
-            //_txtButtonBedroom = "TURN ON";
-            _sendData("d");
-          }
-        } else if (_switchType == 2) {
-          if (_bulbImgPathChildrensRoom == "images/light_off.png" &&
-              _clrButtonChildrensRoom == Colors.green &&
-              _txtButtonChildrensRoom == "TURN ON") {
-            //_bulbImgPathChildrensRoom = "images/light_on.png";
-            //_clrButtonChildrensRoom = Colors.red;
-            //_txtButtonChildrensRoom = "TURN OFF";
-            _sendData("e");
-          } else {
-            //_bulbImgPathChildrensRoom = "images/light_off.png";
-            //_clrButtonChildrensRoom = Colors.green;
-            //_txtButtonChildrensRoom = "TURN ON";
-            _sendData("f");
-          }
-        } else if (_switchType == 3) {
-          if (_bulbImgPathKitchen == "images/light_off.png" &&
-              _clrButtonKitchen == Colors.green &&
-              _txtButtonKitchen == "TURN ON") {
-            //_bulbImgPathKitchen = "images/light_on.png";
-            //_clrButtonKitchen = Colors.red;
-            //_txtButtonKitchen = "TURN OFF";
-            _sendData("g");
-          } else {
-            //_bulbImgPathKitchen = "images/light_off.png";
-            //_clrButtonKitchen = Colors.green;
-            //_txtButtonKitchen = "TURN ON";
-            _sendData("h");
-          }
+          _sendData("b");
+        } 
+        else if (_switchType == 1) {
+          _sendData("a");
         }
+        // else if (_switchType == 2) {
+        //   if (_bulbImgPathChildrensRoom == "images/light_off.png" &&
+        //       _clrButtonChildrensRoom == Colors.green &&
+        //       _txtButtonChildrensRoom == "TURN ON") {
+        //     //_bulbImgPathChildrensRoom = "images/light_on.png";
+        //     //_clrButtonChildrensRoom = Colors.red;
+        //     //_txtButtonChildrensRoom = "TURN OFF";
+        //     _sendData("e");
+        //   } else {
+        //     //_bulbImgPathChildrensRoom = "images/light_off.png";
+        //     //_clrButtonChildrensRoom = Colors.green;
+        //     //_txtButtonChildrensRoom = "TURN ON";
+        //     _sendData("f");
+        //   }
+        // } else if (_switchType == 3) {
+        //   if (_bulbImgPathKitchen == "images/light_off.png" &&
+        //       _clrButtonKitchen == Colors.green &&
+        //       _txtButtonKitchen == "TURN ON") {
+        //     //_bulbImgPathKitchen = "images/light_on.png";
+        //     //_clrButtonKitchen = Colors.red;
+        //     //_txtButtonKitchen = "TURN OFF";
+        //     _sendData("g");
+        //   } else {
+        //     //_bulbImgPathKitchen = "images/light_off.png";
+        //     //_clrButtonKitchen = Colors.green;
+        //     //_txtButtonKitchen = "TURN ON";
+        //     _sendData("h");
+        //   }
+        // }
       });
     } else {
       Fluttertoast.showToast(
         msg: 'Cannot send data!\nYou are not connected.',
       );
     }
-  }*/
+  }
 
 /////////////////////////////////////////////////////////////////////
 
@@ -210,8 +188,8 @@ class _MyAppState extends State<MyApp> {
         decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(text == 'Peltier Plates' ? 25 : 0),
-            bottomLeft: Radius.circular(text == 'Peltier Plates' ? 25 : 0),
+            topLeft: Radius.circular(text == 'Body' ? 25 : 0),
+            bottomLeft: Radius.circular(text == 'Body' ? 25 : 0),
             topRight: Radius.circular(text == 'Body' ? 25 : 0),
             bottomRight: Radius.circular(text == 'Body' ? 25 : 0),
           ),
@@ -264,21 +242,14 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  void onDataReceived(List<int> data) {
-    
-    String message = String.fromCharCodes(data).trim();
+void onDataReceived(List<int> data) {
+  String message = String.fromCharCodes(data).trim();
   print('Received data: $message');
-  double temp = double.parse(message);
-  if (temp != null) {
-    setState(() {
-      temperature_body = temp;
-    });
-  }
-    
-    /*setState(() {
-      this.data = data;
-    });*/
-  }
+
+  setState(() {
+    temperature_body = double.tryParse(message) ?? temperature_body;
+  });
+}
 
   @override
   Widget build(BuildContext context) {
@@ -295,24 +266,7 @@ class _MyAppState extends State<MyApp> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const SizedBox(height: 30),
-                    _buildTab(
-                      'Peltier Plates',
-                      () {
-                        _updateSelectedColors(
-                            'Peltier Plates',
-                            Color(0xFF22AFFF),
-                            Colors.white,
-                            Colors.white,
-                            Color(0xFFB3B3B3));
-                        setState(() {
-                          //////////////////////
-                          _temperatureText =
-                              '17°'; // Update the temperature text
-                        });
-                      },
-                      _selectedColor1,
-                      _selectedTextColor1,
-                    ),
+                   
                     _buildTab(
                       'Body',
                       () {
@@ -365,7 +319,7 @@ class _MyAppState extends State<MyApp> {
                                   : Colors.white),
                         ),
                         Text(
-                          '${temperature_body.toStringAsFixed(2)} °C', // Use the _temperatureText variable here
+                          '${temperature_body.toStringAsFixed(2)}°C', // Use the _temperatureText variable here
                           style: TextStyle(
                               fontSize: 75,
                               color: _selectedColor1 == Color(0xFF22AFFF)
