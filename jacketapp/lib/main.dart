@@ -188,8 +188,8 @@ class _MyAppState extends State<MyApp> {
         decoration: BoxDecoration(
           color: backgroundColor,
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(text == 'Body' ? 25 : 0),
-            bottomLeft: Radius.circular(text == 'Body' ? 25 : 0),
+           topLeft: Radius.circular(text == 'Peltier Plates' ? 25 : 0),
+            bottomLeft: Radius.circular(text == 'Peltier Plates' ? 25 : 0),
             topRight: Radius.circular(text == 'Body' ? 25 : 0),
             bottomRight: Radius.circular(text == 'Body' ? 25 : 0),
           ),
@@ -241,104 +241,147 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-///////////need accurate data
+///////////need to split diff data
+///
+
+//String receivedData = '';
+
+String receivedData = '';
+double bodyTemperature = 0.0;
+double peltierTemperature = 0.0;
+
 void onDataReceived(List<int> data) {
   String message = String.fromCharCodes(data).trim();
-  print('Received data: $message');
+  receivedData += message;
+  print('Received data: $receivedData');
 
-  setState(() {
-    temperature_body = double.tryParse(message) ?? temperature_body;
-  });
+  if (receivedData.contains(',')) {
+    List<String> readings = receivedData.split(',');
+
+    if (readings.length >= 2) {
+      double? parsedBodyTemp = double.tryParse(readings[0]);
+      double? parsedPeltierTemp = double.tryParse(readings[1]);
+
+      if (parsedBodyTemp != null) {
+        setState(() {
+          bodyTemperature = parsedBodyTemp;
+        });
+      }
+
+      if (parsedPeltierTemp != null) {
+        setState(() {
+          peltierTemperature = parsedPeltierTemp;
+        });
+      }
+    }
+
+    receivedData = '';
+  }
 }
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: Color(0xFFF1F5FD),
-        body: SafeArea(
-          child: Column(
-            children: [
-              const SizedBox(height: 20),
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 30),
-                   
-                    _buildTab(
-                      'Body',
-                      () {
-                        _updateSelectedColors(
-                            'Body',
-                            Colors.white,
-                            Color.fromARGB(255, 253, 181, 123),
-                            Color(0xFFB3B3B3),
-                            Colors.white);
-                        /*setState(() {
-                          ///////////////////
-                          _temperatureText =
-                              (String.fromCharCodes(data)); // Update the temperature text
-                        });*/
-                      },
-                      _selectedColor2,
-                      _selectedTextColor2,
-                    ),
-                  ],
-                ),
+String selectedTab = 'Body';
+
+@override
+Widget build(BuildContext context) {
+  return MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: Scaffold(
+      backgroundColor: Color(0xFFF1F5FD),
+      body: SafeArea(
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 30),
+                  _buildTab(
+                    'Peltier Plates',
+                    () {
+                      setState(() {
+                        selectedTab = 'Peltier Plates';
+                      });
+                    },
+                    selectedTab == 'Peltier Plates'
+                        ? Color(0xFF22AFFF)
+                        : Colors.white,
+                    selectedTab == 'Peltier Plates'
+                        ? Colors.white
+                        : Colors.black,
+                  ),
+                  _buildTab(
+                    'Body',
+                    () {
+                      setState(() {
+                        selectedTab = 'Body';
+                      });
+                    },
+                    selectedTab == 'Body'
+                        ? Color.fromARGB(255, 253, 181, 123)
+                        : Colors.white,
+                    selectedTab == 'Body' ? Colors.white : Colors.black,
+                  ),
+                ],
               ),
-              const SizedBox(height: 20),
-              //Small boxes
-              Container(
-                width: 324,
-                height: 193,
+            ),
+            const SizedBox(height: 20),
+            // Small boxes
+            Container(
+              width: 324,
+              height: 193,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: selectedTab == 'Peltier Plates'
+                    ? Color(0xFF22AFFF)
+                    : Color(0xFFFFA184),
+              ),
+              child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(25),
-                  color: _selectedColor1,
+                  color: selectedTab == 'Peltier Plates'
+                      ? Color(0xFF22AFFF)
+                      : Color(0xFFFFA184),
                 ),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: _selectedColor1 == Color(0xFF22AFFF)
-                        ? Color(0xFF22AFFF)
-                        : Color(0xFFFFA184),
-                  ),
-                  child: SizedBox(
-                    width: 324,
-                    height: 193,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          _selectedText,
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: _selectedColor1 == Color(0xFF22AFFF)
-                                  ? _selectedTextColor1
-                                  : Colors.white),
-                        ),
-                        Text(
-                          '${temperature_body.toStringAsFixed(2)}°C', // Use the _temperatureText variable here
-                          style: TextStyle(
-                              fontSize: 75,
-                              color: _selectedColor1 == Color(0xFF22AFFF)
-                                  ? _selectedTextColor1
-                                  : Colors.white),
-                        ),
-                        Text(
-                          'Current Temperature',
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: _selectedColor1 == Color(0xFF22AFFF)
-                                  ? _selectedTextColor1
-                                  : Colors.white),
-                        ),
-                      ],
-                    ),
+                child: SizedBox(
+                  width: 324,
+                  height: 193,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        selectedTab == 'Peltier Plates'
+                            ? 'Peltier Temperature'
+                            : 'Body Temperature',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: selectedTab == 'Peltier Plates'
+                                ? Colors.white
+                                : Colors.white),
+                      ),
+                      Text(
+                        selectedTab == 'Peltier Plates'
+                            ? '${peltierTemperature.toStringAsFixed(2)}°C'
+                            : '${bodyTemperature.toStringAsFixed(2)}°C',
+                        style: TextStyle(
+                            fontSize: 75,
+                            color: selectedTab == 'Peltier Plates'
+                                ? Colors.white
+                                : Colors.white),
+                      ),
+                      Text(
+                        'Current Temperature',
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: selectedTab == 'Peltier Plates'
+                                ? Colors.white
+                                : Colors.white),
+                      ),
+                    ],
                   ),
                 ),
               ),
+            ),
               const SizedBox(height: 30),
               Wrap(
                 children: [
