@@ -20,8 +20,6 @@ class _MyAppState extends State<MyApp> {
     //initialized bluetooth variable
   late BluetoothConnection _connection;
   List<int> data = []; ////////////////
-  //double temperature_body = 00.0;
-
 
   String _connectedYesNo = "Loading...";
   Color _colorConnectedYesNo = Colors.black;
@@ -113,41 +111,21 @@ class _MyAppState extends State<MyApp> {
     if (_connectedYesNo == "Connected") {
       setState(() {
         if (_switchValues[0]) {
-          _sendData("b");
-          debugPrint("Sent data: b");
-          Text(
-            selectedTab == 'Peltier Plates'
-                ? '0.00°C'
-                : '0.00°C',
-            style: TextStyle(
-                fontSize: 75,
-                color: selectedTab == 'Peltier Plates'
-                    ? Colors.grey
-                    : Colors.grey),
-          );
+          _sendData("0");
+          debugPrint("Sent data: 0");
         }
          else {
-          _sendData("a");
-          debugPrint("Sent data: a");
-          Text(
-            selectedTab == 'Peltier Plates'
-                ? '${peltierTemperature.toStringAsFixed(2)}°C'
-                : '${bodyTemperature.toStringAsFixed(2)}°C',
-            style: TextStyle(
-                fontSize: 75,
-                color: selectedTab == 'Peltier Plates'
-                    ? Colors.white
-                    : Colors.white),
-          );
+          _sendData("1");
+          debugPrint("Sent data: 1");
         }
 
         if (_switchValues[1]) {
-          _sendData("a");
-          debugPrint("Sent data: a");
+          _sendData("1");
+          debugPrint("Sent data: 1");
         }
          else {
-          _sendData("b");
-          debugPrint("Sent data: b");
+          _sendData("0");
+          debugPrint("Sent data: 0");
         }
       });
     } else {
@@ -178,20 +156,12 @@ class _MyAppState extends State<MyApp> {
         constraints: BoxConstraints(minWidth: 0, maxWidth: 150),
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
         decoration: BoxDecoration(
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: Colors.black.withOpacity(0.3),
-          //     offset: Offset(0, 4),
-          //     blurRadius: 10,
-          //     spreadRadius: 0,
-          //   ),
-          // ],
           color: backgroundColor,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(text == 'Peltier Plates' ? 25 : 0),
             bottomLeft: Radius.circular(text == 'Peltier Plates' ? 25 : 0),
-            topRight: Radius.circular(text == 'Body' ? 25 : 0),
-            bottomRight: Radius.circular(text == 'Body' ? 25 : 0),
+            topRight: Radius.circular(text == 'Air' ? 25 : 0),
+            bottomRight: Radius.circular(text == 'Air' ? 25 : 0),
           ),
         ),
         child: Row(
@@ -262,7 +232,7 @@ class _MyAppState extends State<MyApp> {
   ///////////need to split diff data///
   String receivedData = '';
   double peltierTemperature = 0.0;
-  double bodyTemperature = 0.0;
+  double airTemperature = 0.0;
   Timer? debounceTimer;
 
   void onDataReceived(List<int> data) {
@@ -287,7 +257,7 @@ class _MyAppState extends State<MyApp> {
           if (parsedTemp1 != null && parsedTemp2 != null) {
             setState(() {
               peltierTemperature = parsedTemp1;
-              bodyTemperature = parsedTemp2;
+              airTemperature = parsedTemp2;
             });
           }
         }
@@ -363,16 +333,16 @@ class _MyAppState extends State<MyApp> {
                           : Color.fromARGB(255, 122, 122, 122),
                     ),
                     _buildTab(
-                      'Body',
+                      'Air',
                       () {
                         setState(() {
-                          selectedTab = 'Body';
+                          selectedTab = 'Air';
                         });
                       },
-                      selectedTab == 'Body'
+                      selectedTab == 'Air'
                           ? Color(0xFFFFA184)
                           : Color.fromARGB(255, 230, 229, 229),
-                      selectedTab == 'Body'
+                      selectedTab == 'Air'
                           ? Colors.white 
                           : Color.fromARGB(255, 122, 122, 122),
                     ),
@@ -414,7 +384,7 @@ class _MyAppState extends State<MyApp> {
                         Text(
                           selectedTab == 'Peltier Plates'
                               ? 'Peltier Temperature'
-                              : 'Body Temperature',
+                              : 'Air Temperature',
                           style: TextStyle(
                               fontSize: 21,
                               color: selectedTab == 'Peltier Plates'
@@ -424,7 +394,7 @@ class _MyAppState extends State<MyApp> {
                         Text(
                           selectedTab == 'Peltier Plates'
                               ? '${peltierTemperature.toStringAsFixed(2)}°C'
-                              : '${bodyTemperature.toStringAsFixed(2)}°C',
+                              : '${airTemperature.toStringAsFixed(2)}°C',
                           style: TextStyle(
                               fontSize: 75,
                               color: selectedTab == 'Peltier Plates'
@@ -447,14 +417,14 @@ class _MyAppState extends State<MyApp> {
               const SizedBox(height: 30),
               Wrap(
                 children: [
-                  _buildShadowedBox(
-                    _buildSmallBox(
-                      0,
-                      FontAwesomeIcons.powerOff,
-                      'Power',
-                      Color.fromARGB(255, 147, 204, 122),
-                    ),
-                  ),
+                  // _buildShadowedBox(
+                  //   _buildSmallBox(
+                  //     0,
+                  //     FontAwesomeIcons.powerOff,
+                  //     'Power',
+                  //     Color.fromARGB(255, 147, 204, 122),
+                  //   ),
+                  // ),
                   _buildShadowedBox(
                     _buildSmallBox(
                       1,
